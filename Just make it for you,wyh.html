@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>藏在星辰里的悄悄话—独属于你</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #ffebee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .message {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #d81b60;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin: 5px 0;
+        }
+        
+        .heart {
+            color: #d81b60;
+            font-size: 2rem;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="heartCanvas"></canvas>
+    <div class="message">
+        <h1>文艺菡 <span class="heart">↓</span></h1>
+            <p>遇见你是我最大的幸运</p>
+            <p>每一天都因你而美好</p>
+            <p>轻触屏幕添加更多爱心~</p>
+            <p>我只是觉得，有些心意，像星星一样，即使隔着遥远的距离，它也在努力发光。</p>
+            <p>我想让你知道，在某个人的眼中，你就是这样一颗明亮、独特的星星。</p>
+            <p>你的光芒，有人看见，有人珍惜，有人因此而觉得世界更美好了一点。”</p>
+            <p>“也许在另一个平行时空，我们只是擦肩而过。但在这个时空，我很庆幸能认识你，能有机会对你说出这些话。”</p>
+            <p>愿你未来的路，总有美好相伴。愿你眼里，永远有星光。”</p>
+            <p>纯个人制作的网站，比较简陋，理解一下</p>
+            <a href = "index.html">返回首页</a>
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 设置画布大小为窗口大小
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        // 爱心数组
+        const hearts = [];
+        
+        // 爱心类
+        class Heart {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 20 + 10;
+                this.speedY = Math.random() * 3 + 1;
+                this.color = `hsl(${Math.random() * 60 + 330}, 100%, ${Math.random() * 30 + 50}%)`;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = Math.random() * 0.1 - 0.05;
+            }
+            
+            update() {
+                this.y -= this.speedY;
+                this.rotation += this.rotationSpeed;
+                
+                // 如果爱心飞出屏幕顶部，重置到底部
+                if (this.y < -this.size) {
+                    this.y = canvas.height + this.size;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.beginPath();
+                
+                // 绘制爱心形状
+                const curve = this.size * 0.4;
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(
+                    this.size / 2, -this.size / 2,
+                    this.size, 0,
+                    0, this.size
+                );
+                ctx.bezierCurveTo(
+                    -this.size, 0,
+                    -this.size / 2, -this.size / 2,
+                    0, 0
+                );
+                
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+        
+        // 初始化爱心
+        function init() {
+            for (let i = 0; i < 30; i++) {
+                hearts.push(new Heart());
+            }
+        }
+        
+        // 动画循环
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let heart of hearts) {
+                heart.update();
+                heart.draw();
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // 窗口大小改变时调整画布大小
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // 触摸屏幕时添加更多爱心
+        canvas.addEventListener('touchstart', function(e) {
+            for (let i = 0; i < 5; i++) {
+                hearts.push(new Heart());
+            }
+        });
+        
+        init();
+        animate();
+    </script>
+</body>
+</html>

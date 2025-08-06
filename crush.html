@@ -1,0 +1,16 @@
+{% extends 'learning_logs/base.html' %}
+
+{% block content %}
+  <p class="lead">您只需要知道，我们各自都有喜欢的人</p>
+  <p class="lead">如果实在想知道，请咨询1600313803@qq.com</p>
+  <p class="lead">敬请期待</p>
+  <p class="lead"> 但是既然您都点进来了，不能让您白来。↓↓↓</p>
+
+  <a class="btn btn-primary btn-lg mt-1" href="{% url 'learning_logs:express' %}">
+    爱心表白动画程序（谨以此页面赠给我喜欢的那个人） &raquo;
+  </a>
+  <a class="btn btn-primary btn-lg mt-1" href="{% url 'learning_logs:privacy' %}">
+    如果您从开发者处获取了密码，请访问此页面 &raquo;
+  </a>
+  
+{% endblock content %}
